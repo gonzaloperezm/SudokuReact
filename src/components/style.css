@@ -1,0 +1,33 @@
+
+input{
+    border: 2px solid #777;
+    height: 30px;
+    width: 30px;
+    font-size: 20pt;
+    text-align: center;
+    
+    
+}
+.rojo{
+    background-color: red;
+
+}
+
+
+.square{
+
+    display: flex;
+  
+    
+
+}
+.bordes{
+    border: 2px solid black;
+}
+
+.board{
+   
+    border: 3px solid black;
+
+}
+
