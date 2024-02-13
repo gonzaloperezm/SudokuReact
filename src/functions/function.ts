@@ -13,20 +13,9 @@ export function checkRow(content: Casilla[][]) {
             }
         }
     }
-    return duplicados.length >0 ? duplicados: false
+    return duplicados.length > 0 ? duplicados : false
 }
-export function getInitial(coordenada: number) {
-    switch (coordenada) {
-        case 0: case 1: case 2:
-            return 0;
-        case 3: case 4: case 5:
-            return 3;
-        case 6: case 7: case 8:
-            return 6;
-        default:
-            return 0
-    }
-}
+
 export function checkSquare(initialRow: number, initialColumn: number, content: Casilla[][]) {
     const duplicates = [];
     for (let i = initialRow; i < initialRow + 3; i++) {
@@ -64,18 +53,18 @@ export function checkAllSquares(content: Casilla[][]) {
 
 export function checkColumn(content: Casilla[][]) {
     const duplicados = []
-    for(var i=0; i<9;i++){
-        for(var k=0;k<9;k++){
-            if(content[k][i].value !== null){
-                for(var j=0; j<9;j++){
-                    if(content[k][i].value === content[j][i].value && content[k][i].x !== content[j][i].x){
+    for (var i = 0; i < 9; i++) {
+        for (var k = 0; k < 9; k++) {
+            if (content[k][i].value !== null) {
+                for (var j = 0; j < 9; j++) {
+                    if (content[k][i].value === content[j][i].value && content[k][i].x !== content[j][i].x) {
                         duplicados.push(content[k][i].id)
                     }
                 }
             }
         }
     }
-    return duplicados.length>0?duplicados: false
+    return duplicados.length > 0 ? duplicados : false
 }
 
 
@@ -83,25 +72,37 @@ export function checkBoard(data: Casilla[][]) {
     const cuadricula = checkAllSquares(data)
     const fila = checkRow(data);
     const columna = checkColumn(data);
-  
-    const id = []
+
+    const id: Array<string> = []
     if (fila) {
-        id.push(...fila)
+        fila.forEach((numId) => {
+            if (!id.includes(numId)) {
+                id.push(numId)
+            }
+        })
     }
     if (columna) {
-        id.push(...columna)
+        columna.forEach((numId) => {
+            if (!id.includes(numId)) {
+                id.push(numId)
+            }
+        })
     }
     if (cuadricula) {
+        cuadricula.forEach((numId) => {
+            if (!id.includes(numId)) {
+                id.push(numId)
+            }
+        })
 
-        id.push(...cuadricula)
     }
-    if(id.length===0){
+    if (id.length === 0) {
         return false
     }
     return id
 }
 
 
-export function getRandom(){
-    return Math.floor(Math.random()*9)+1
+export function getRandom() {
+    return Math.floor(Math.random() * 9) + 1
 }

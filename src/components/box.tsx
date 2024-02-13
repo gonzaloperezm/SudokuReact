@@ -1,6 +1,6 @@
 
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './style.css'
 
 import { Casilla, useBoardData, useChangeBoard, useChangeColor } from './boardContext';
@@ -27,21 +27,24 @@ const Box: React.FC<Props> = ({ number }) => {
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         
         const newValue = event.target.value;
-        changeBoard(number, isNaN(newValue) ? parseInt(event.target.value): parseInt(newValue))
+       
+        changeBoard(number, isNaN(parseInt(newValue))?null: parseInt(newValue))
+        
         
         const boardCheckResult = checkBoard(content);
-        console.log("check board: ",boardCheckResult)
+        
 
         const previousIds= id;
         setId(boardCheckResult || []);
-        
+        console.log("Checkresult: ",boardCheckResult)
         previousIds.forEach((prevId)=>{
             if (!boardCheckResult || !boardCheckResult.includes(prevId)) {
                 changeColor([prevId], white);
             }
         })
-        console.log("ids: ",id)
+       
         number.color = white
+        
         if (boardCheckResult) {
            
             changeColor(boardCheckResult, red);
