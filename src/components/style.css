@@ -1,33 +1,43 @@
-
-input{
+input {
     border: 2px solid #777;
-    height: 30px;
-    width: 30px;
-    font-size: 20pt;
+    height: 40px;
+    width: 40px;
+    font-size: 50px;
     text-align: center;
-    
-    
+
+
 }
-.rojo{
+
+.rojo {
     background-color: red;
 
 }
 
+.white {
+    background-color: white;
+}
 
-.square{
 
+
+
+.sudoku-board {
     display: flex;
-  
+    flex-direction: column;
+    border: 5px solid black;
     
-
-}
-.bordes{
-    border: 2px solid black;
 }
 
-.board{
-   
-    border: 3px solid black;
-
+.sudoku-board .row {
+    display: flex;
 }
+
+.borde {
+    border-bottom: 3px solid black;
+}
+
+.borderight{
+    border-right: 3px solid black;
+}
+
+
 

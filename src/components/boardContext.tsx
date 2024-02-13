@@ -1,10 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { checkBoard } from "../functions/function";
+
 
 
 
 const BoardData = createContext<Casilla[][]>([])
 const ChangeBoard = createContext<(x:Casilla,i:number) => void>(()=>{})
-const ChangeColor = createContext<(id: Array<string>)=>void>(()=>{})
+const ChangeColor = createContext<(id: Array<string>,color: string)=>void>(()=>{})
 
 export function useBoardData(){
    return useContext(BoardData)
@@ -53,13 +55,15 @@ const row1 = [5,3,null,null,7,null,null,null,null]
 
     const contenido = [row1,row2,row3,row4,row5,row6,row7,row8,row9]
 
-
+    export interface ModalRef{
+        showModal():()=>void,
+        hideModal():()=>void
+      }
 
 export const BoardContext = (props: any)=>{
 
     let content: Casilla[][] = []
 
-    
  
     
     for(var i=0; i<9;i++){
@@ -89,26 +93,62 @@ export const BoardContext = (props: any)=>{
         setData([...data])
     }
 
-    function changeColor(id: Array<string>){
+    type id={
+        id: string[] | string[][]
+    }
+    function changeColor(id: id,color:string ){
         for(let i=0;i<data.length;i++){
             for(let k=0;k<data[i].length;k++){
                 for(let x=id.length-1;x>=0;x--)
                 if(data[i][k].id === id[x]){
-                    data[i][k].color ="rojo"
+                    data[i][k].color =color
                 }
             }
         }
     }
+    const [winner, setWinner] = useState(false)
+    useEffect(() => {
+        function checkWin(data: Casilla[][]){
+            let winner = true
+            data.forEach(rows => {
+                rows.forEach(casilla => {
+                    if(casilla.value === null || isNaN(casilla.value)){
+                        winner = false
+                    }else{
+                        if(checkBoard(data)){
+                            winner = false
+                        }
+                    }
+                });
+            });
+            console.log("estado winnner: ",winner)
+            setWinner(winner)
+        }
+        checkWin(data);
+    }, [data]);
+
+    useEffect(()=>{
+        if (winner && props.openModal) {
+           props.openModal()
+        }
+    },[winner])
     return(
-        <BoardData.Provider value={data}>
+        <>
+         <BoardData.Provider value={data}>
             <ChangeBoard.Provider value={changeBoard}>
                 <ChangeColor.Provider value={changeColor}>
+                
                     {props.children}
+                    
                 </ChangeColor.Provider>
-               
+                
             </ChangeBoard.Provider>
+            
         </BoardData.Provider>
-
+        
+        </>
+       
+        
     )
 
 }
