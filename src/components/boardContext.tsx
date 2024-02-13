@@ -110,7 +110,7 @@ export const BoardContext = (props: any) => {
             let winner = true
             data.forEach(rows => {
                 rows.forEach(casilla => {
-                    if (casilla.value === null || isNaN(casilla.value)) {
+                    if (casilla.value === null || isNaN(casilla.value) || casilla.value === 0) {
                         winner = false
                     } else {
                         if (checkBoard(data)) {

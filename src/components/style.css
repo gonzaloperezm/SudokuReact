@@ -1,12 +1,17 @@
 input {
     border: 2px solid #777;
-    height: 40px;
-    width: 40px;
-    font-size: 50px;
+    height: 50px;
+    width: 50px;
+    font-weight:  bold;
     text-align: center;
 
 
 }
+input:disabled{
+    color: #535353;
+   
+}
+
 
 .rojo {
     background-color: red;
