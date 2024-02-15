@@ -30,8 +30,6 @@ export function useBoardData() {
     return useContext(BoardData)
 }
 
-
-
 export function useChangeBoard() {
     return useContext(ChangeBoard)
 }
@@ -73,7 +71,7 @@ export const BoardContext = (props: any) => {
         setData([...data])
     }
 
-
+    
     function changeColor(id: string[], color: string) {
         
         for (let i = 0; i < data.length; i++) {
