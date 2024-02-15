@@ -23,50 +23,50 @@ const Box: React.FC<Props> = ({ number }) => {
     const red = "rojo"
 
     const [id, setId] = useState<string[]>([])
-    
+
     function handleChange(event: any) {
-        
+
         const newValue = event.target.value;
-       
-        changeBoard(number, isNaN(parseInt(newValue))?null: parseInt(newValue))
-        
-        
+
+        changeBoard(number, isNaN(parseInt(newValue)) ? null : parseInt(newValue))
+
+
         const boardCheckResult = checkBoard(content);
-        
+
         if (boardCheckResult) {
-           
+
             changeColor(boardCheckResult, red);
-            
-        }else{
-            changeColor(id,white)
+
+        } else {
+            changeColor(id, white)
         }
 
         setValueNumber(newValue);
-        console.log(id)
+        
 
-        }
+    }
 
-        useEffect(()=>{
-            const boardCheckResult = checkBoard(content)
-            const previousIds= [...id];
-            
-            setId(boardCheckResult?boardCheckResult:[]);
-          
-            previousIds.forEach((prevId)=>{
-                if (!boardCheckResult || !boardCheckResult.includes(prevId)) {
-                    changeColor([prevId], white);
-                }
-            })
-        },[content])
+    useEffect(() => {
+        const boardCheckResult = checkBoard(content)
+        const previousIds = [...id];
+
+        setId(boardCheckResult ? boardCheckResult : []);
+
+        previousIds.forEach((prevId) => {
+            if (!boardCheckResult || !boardCheckResult.includes(prevId)) {
+                changeColor([prevId], white);
+            }
+        })
+    }, [content])
 
 
-    
+
 
 
 
     const [valueNumber, setValueNumber] = useState<number | string>(number.value == null ? '' : number.value)
 
-    
+
     return (
 
         <input type="text"

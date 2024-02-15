@@ -1,7 +1,25 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { checkBoard } from "../functions/function";
+import { checkBoard, createBoard } from "../functions/function";
 
 
+export class Casilla {
+    id: string;
+    x: number;
+    y: number;
+    defaultValue: boolean;
+    value: number | null
+    color: string
+    constructor(id: string, x: number, y: number, defaultValue: boolean, value: number | null, color: string) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.defaultValue = defaultValue;
+        this.value = value;
+        this.color = color
+    }
+
+
+}
 
 
 const BoardData = createContext<Casilla[][]>([])
@@ -22,24 +40,8 @@ export function useChangeColor() {
     return useContext(ChangeColor)
 }
 
-export class Casilla {
-    id: string;
-    x: number;
-    y: number;
-    defaultValue: boolean;
-    value: (number | null)
-    color: string
-    constructor(id: string, x: number, y: number, defaultValue: boolean, value: (number | null), color: string) {
-        this.id = id;
-        this.x = x;
-        this.y = y;
-        this.defaultValue = defaultValue;
-        this.value = value;
-        this.color = color
-    }
 
 
-}
 
 
 
@@ -62,30 +64,8 @@ export interface ModalRef {
 
 export const BoardContext = (props: any) => {
 
-    let content: Casilla[][] = []
-
-
-
-    for (var i = 0; i < 9; i++) {
-
-        let row: Array<Casilla> = []
-        for (var k = 0; k < 9; k++) {
-
-            const id = `${i},${k}`;
-            const defaultValue = contenido[i][k] ? true : false;
-            let value = contenido[i][k]
-            const x = i;
-            const y = k;
-            const color = ""
-
-
-            const casilla = new Casilla(id, x, y, defaultValue, value, color);
-            row.push(casilla)
-
-        }
-        content.push(row)
-
-    }
+    let content: Casilla[][] = createBoard(contenido)
+    
     const [data, setData] = useState(content)
 
     function changeBoard(number: Casilla, newValue: number | null) {
@@ -95,6 +75,7 @@ export const BoardContext = (props: any) => {
 
 
     function changeColor(id: string[], color: string) {
+        
         for (let i = 0; i < data.length; i++) {
             for (let k = 0; k < data[i].length; k++) {
                 for (let x = id.length - 1; x >= 0; x--)

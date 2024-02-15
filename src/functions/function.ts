@@ -72,12 +72,13 @@ export function checkBoard(data: Casilla[][]) {
     const cuadricula = checkAllSquares(data)
     const fila = checkRow(data);
     const columna = checkColumn(data);
-
+    
     const id: Array<string> = []
     if (fila) {
         fila.forEach((numId) => {
             if (!id.includes(numId)) {
                 id.push(numId)
+                
             }
         })
     }
@@ -106,3 +107,68 @@ export function checkBoard(data: Casilla[][]) {
 export function getRandom() {
     return Math.floor(Math.random() * 9) + 1
 }
+
+
+export function createBoard(contenido: (number | null)[][]): Casilla[][]{
+    let content: Casilla[][] = []
+    for (var i = 0; i < 9; i++) {
+
+        let row: Array<Casilla> = []
+        for (var k = 0; k < 9; k++) {
+    
+            const id = `${i},${k}`;
+            const defaultValue = contenido[i][k] ? true : false;
+            let value = contenido[i][k];
+            const x = i;
+            const y = k;
+            const color = "";
+    
+    
+            const casilla = new Casilla(id, x, y, defaultValue, value, color);
+            row.push(casilla)
+    
+        }
+        content.push(row)
+    
+    }
+    return content;
+}
+
+
+
+/*export function createNewBoard(contenido: (number | null)[][]): Casilla[][]{
+    let content: Casilla[][] = []
+    for (var i = 0; i < 9; i++) {
+
+        let row: Array<Casilla> = []
+        for (var k = 0; k < 9; k++) {
+    
+            const id = `${i},${k}`;
+            const defaultValue = contenido[i][k] ? true : false;
+            
+            let value = getRandom();
+            const x = i;
+            const y = k;
+            const color = "";
+            if(checkBoard(content)){
+                const ids = checkBoard(content)
+                if(ids)
+                ids.map((id)=>{
+                    while(checkBoard(content)){
+                        id === getRandom()
+                    }
+                })
+                
+            }
+    
+            const casilla = new Casilla(id, x, y, defaultValue, value, color);
+            row.push(casilla)
+    
+        }
+        content.push(row)
+    
+    }
+    return content;
+}
+
+*/
