@@ -2,13 +2,15 @@ import { Col, Container, Row } from "react-bootstrap"
 import Box from "./box"
 import './style.css'
 
-import { Casilla, useBoardData, useChangeBoard, useChangeColor } from "./boardContext"
+import {  useBoardData, useChangeValue, useChangeColor } from "./boardContext"
 import { checkBoard } from "../functions/function";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
+import { tablero } from "../models/types/type";
+import { Casilla } from "../models/classes/casilla";
 
 export const Square = () => {
-  const content: Casilla[][] = useBoardData()
-  const changeBoard = useChangeBoard()
+  const content: tablero = useBoardData()
+  const changeValue = useChangeValue()
   const changeColor = useChangeColor()
   const white = "white";
   const red = "rojo"
@@ -17,16 +19,16 @@ export const Square = () => {
   function handleChange(event: any, casilla: Casilla) {
     const newValue = event.target.value;
 
-    changeBoard(casilla, isNaN(parseInt(newValue)) ? null : parseInt(newValue))
+    changeValue(casilla, isNaN(parseInt(newValue)) ? null : parseInt(newValue),content)
 
     const boardCheckResult = checkBoard(content);
 
     if (boardCheckResult) {
 
-      changeColor(boardCheckResult, red);
+     changeColor(boardCheckResult, red,content);
 
     } else {
-      changeColor(id, white)
+      changeColor(id, white,content)
     }
 
   }
@@ -39,7 +41,7 @@ export const Square = () => {
 
     previousIds.forEach((prevId) => {
       if (!boardCheckResult || !boardCheckResult.includes(prevId)) {
-        changeColor([prevId], white);
+        changeColor([prevId], white,content);
       }
     })
   }, [content])

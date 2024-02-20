@@ -1,37 +1,23 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { checkBoard, createBoard } from "../functions/function";
+import { tablero } from "../models/types/type";
+import { Casilla } from "../models/classes/casilla";
 
 
-export class Casilla {
-    id: string;
-    x: number;
-    y: number;
-    defaultValue: boolean;
-    value: number | null
-    color: string
-    constructor(id: string, x: number, y: number, defaultValue: boolean, value: number | null, color: string) {
-        this.id = id;
-        this.x = x;
-        this.y = y;
-        this.defaultValue = defaultValue;
-        this.value = value;
-        this.color = color
-    }
 
 
-}
 
-
-const BoardData = createContext<Casilla[][]>([])
-const ChangeBoard = createContext<(x: Casilla, i: number | null) => void>(() => { })
-const ChangeColor = createContext<(id: Array<string>, color: string) => void>(() => { })
+const BoardData = createContext<tablero>([])
+const ChangeValue = createContext<(x: Casilla, i: number | null,data: tablero) => void>(() => {return [] });
+const ChangeColor = createContext<(id: Array<string>, color: string,data: tablero) => void>(()=>{return []});
 
 export function useBoardData() {
     return useContext(BoardData)
 }
 
-export function useChangeBoard() {
-    return useContext(ChangeBoard)
+export function useChangeValue() {
+    return useContext(ChangeValue)
+
 }
 
 export function useChangeColor() {
@@ -43,49 +29,49 @@ export function useChangeColor() {
 
 
 
-const row1 = [5, 3, null, null, 7, null, null, null, null]
-const row2 = [6, null, null, 1, 9, 5, null, null, null]
-const row3 = [null, 9, 8, null, null, null, null, 6, null]
-const row4 = [8, null, null, null, 6, null, null, null, 3]
-const row5 = [4, null, null, 8, null, 3, null, null, 1]
-const row6 = [7, null, null, null, 2, null, null, null, 6]
-const row7 = [null, 6, null, null, null, null, 2, 8, null]
-const row8 = [null, null, null, 4, 1, 9, null, null, 5]
-const row9 = [null, null, null, null, 8, null, null, 7, 9]
 
-const contenido = [row1, row2, row3, row4, row5, row6, row7, row8, row9]
 
 export interface ModalRef {
     showModal(): () => void,
     hideModal(): () => void
 }
-
-export const BoardContext = (props: any) => {
-
-    let content: Casilla[][] = createBoard(contenido)
+type boardContextProps = {
+    contenido: (number | null)[][],
+    openModal: ()=>void,
+    children: ReactNode
+}
+export const BoardContext = (props: boardContextProps) => {
+   
+    const tablero = createBoard(props.contenido)
+    const [data,setData] = useState(tablero);
     
-    const [data, setData] = useState(content)
 
-    function changeBoard(number: Casilla, newValue: number | null) {
-        data[number.x][number.y].value = newValue
-        setData([...data])
+    function changeValue(number: Casilla, newValue: number | null,data: tablero) {
+        const newData = data.map(row => row.slice()); // Clonar el array de arrays
+        newData[number.x][number.y].value = newValue;
+        setData(newData);
+        
     }
 
     
-    function changeColor(id: string[], color: string) {
+    function changeColor(id: string[], color: string,data: tablero) {
         
-        for (let i = 0; i < data.length; i++) {
-            for (let k = 0; k < data[i].length; k++) {
-                for (let x = id.length - 1; x >= 0; x--)
-                    if (data[i][k].id === id[x]) {
-                        data[i][k].color = color
-                    }
+        const newData = data.map(row => row.slice()); // Clonar el array de arrays
+    for (let i = 0; i < newData.length; i++) {
+        for (let k = 0; k < newData[i].length; k++) {
+            for (let x = id.length - 1; x >= 0; x--) {
+                if (newData[i][k].id === id[x]) {
+                    newData[i][k].color = color;
+                }
             }
         }
     }
+    setData(newData);
+        
+    }
     const [winner, setWinner] = useState(false)
     useEffect(() => {
-        function checkWin(data: Casilla[][]) {
+        function checkWin(data: tablero) {
             let winner = true
             data.forEach(rows => {
                 rows.forEach(casilla => {
@@ -109,17 +95,20 @@ export const BoardContext = (props: any) => {
             props.openModal()
         }
     }, [winner])
+    
+   
+    
     return (
         <>
             <BoardData.Provider value={data}>
-                <ChangeBoard.Provider value={changeBoard}>
+                <ChangeValue.Provider value={changeValue}>
                     <ChangeColor.Provider value={changeColor}>
 
                         {props.children}
 
                     </ChangeColor.Provider>
 
-                </ChangeBoard.Provider>
+                </ChangeValue.Provider>
 
             </BoardData.Provider>
 
@@ -129,3 +118,5 @@ export const BoardContext = (props: any) => {
     )
 
 }
+
+

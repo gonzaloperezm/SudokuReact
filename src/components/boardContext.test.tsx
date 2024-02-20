@@ -1,62 +1,67 @@
-import { renderHook } from  '@testing-library/react';
-import { Casilla, useChangeColor } from './boardContext';
-import { describe,test,expect } from 'vitest';
+import { render, cleanup, waitFor,screen } from '@testing-library/react';
+import { BoardContext, useBoardData,  useChangeValue } from './boardContext';
+import { describe, test, assert,afterEach, expect } from 'vitest';
+import { contenido } from '../App';
+import { Casilla } from '../models/classes/casilla';
+import Square from './square';
+import userEvent from '@testing-library/user-event';
 
+describe('BoardContext', () => {
+    afterEach(() => {
+        cleanup();
+    });
 
-
-
-
-
-describe('BoardContext',()=>{
-
-
-    test('cambiar el color de los elementos con id que se pasa',()=>{
-        var elemento1 = new Casilla("1",0,0,true,null,"red")
-        var elemento2 = new Casilla("2",0,1,true,null,"white")
-        var elemento3 = new Casilla("3",0,2,true,null,"green")
-        var elemento4 = new Casilla("4",0,3,true,null,"black")
-        const data = [
-            [elemento1, elemento2],
-            [elemento3, elemento4]
-          ];
-          const { result } =renderHook(()=>useChangeColor())
-          const changeColor = result.current
-      
-          
-          changeColor(["1","3"], 'purple');
-          
-      
-          
-          expect(data[0][0].color).toBe('purple'); 
-          expect(data[1][0].color).toBe('purple'); 
-
+    const mockData = contenido;
     
-})
+   
+    test('cambiar el color de los elementos con id que se pasa',async  () => {
+        const user = userEvent.setup();
+        
+        
+        
 
+        render(
+            <BoardContext contenido={mockData} openModal={() => { }}>
+                <Square />
+            </BoardContext>
+        );
+        const target = await screen.findByTestId('0,3');
+        
+        
+        userEvent.click(target);
+        userEvent.keyboard("3")
+        console.log("target",target);
+        const targetMod = await screen.findByTestId('0,3');
+        console.log("target 2",targetMod);
+        expect(target).toBe('3')
+        await waitFor(() => {
+            
+        });
 
+       
+    });
 
-})
+    /*test('Cambiar el valor de una casilla', async () => {
+        const TestComponent = () => {
+            const data = useBoardData();
+            const changeValue = useChangeValue();
+            const casilla = new Casilla("0,0", 0, 0, true, 1, '');
 
+            changeValue(casilla, 7, data);
 
+            assert.strictEqual(data[0][0].value, 7);
+            return <></>;
+        };
 
-/*test('cambiar el color de los elementos con id que se pasa',()=>{
-    var elemento1 = new Casilla("1",0,0,true,null,"red")
-    var elemento2 = new Casilla("2",0,1,true,null,"white")
-    var elemento3 = new Casilla("3",0,2,true,null,"green")
-    var elemento4 = new Casilla("4",0,3,true,null,"black")
-    const data = [
-        [elemento1, elemento2],
-        [elemento3, elemento4]
-      ];
+        render(
+            <BoardContext contenido={mockData} openModal={() => { }}>
+                <TestComponent />
+            </BoardContext>
+        );
 
-      const changeColor = useChangeColor()
-  
-      
-      changeColor(["1","3"], 'purple');
-  
-      
-      expect(data[0][0].color).toBe('purple'); // ID '1'
-      expect(data[1][0].color).toBe('purple'); // ID '3'
-})*/
+        // Wait for any asynchronous operations to complete
+        await waitFor(() => {});
 
-
+        // The test should end successfully
+    });*/
+});

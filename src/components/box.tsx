@@ -3,7 +3,7 @@
 
 import './style.css'
 
-import { Casilla,  } from './boardContext';
+import { Casilla } from '../models/classes/casilla';
 
 
 type Props = {
@@ -25,7 +25,8 @@ const Box: React.FC<Props> = ({ casilla,onNumberChange }) => {
             onChange={(e)=>{onNumberChange(e,casilla)}}
             value={casilla.value || ""}
             disabled={casilla.defaultValue ? true : false}
-            className={casilla.color} />
+            className={casilla.color} 
+            data-testid={casilla.id}/>
 
     )
 }

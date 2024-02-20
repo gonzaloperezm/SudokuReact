@@ -33,7 +33,7 @@ test('comprobar que un sudoku sea correcto',()=>{
 })
 
 test('completar una matriz con objetos Casilla',()=>{
-    let content = createBoard(contenido)
+    const content = createBoard(contenido)
     expect(content).toHaveLength(9)
     expect(content).toBeInstanceOf(Array<Array<Casilla>>)
     expect(content[0]).toHaveLength(9)

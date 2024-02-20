@@ -1,5 +1,4 @@
-import { Casilla } from "../components/boardContext";
-
+import { Casilla } from "../models/classes/casilla";
 export function checkRow(content: Casilla[][]) {
     const duplicados = []
     for (let i = 0; i < 9; i++) {
@@ -53,10 +52,10 @@ export function checkAllSquares(content: Casilla[][]) {
 
 export function checkColumn(content: Casilla[][]) {
     const duplicados = []
-    for (var i = 0; i < 9; i++) {
-        for (var k = 0; k < 9; k++) {
+    for (let i = 0; i < 9; i++) {
+        for (let k = 0; k < 9; k++) {
             if (content[k][i].value !== null) {
-                for (var j = 0; j < 9; j++) {
+                for (let j = 0; j < 9; j++) {
                     if (content[k][i].value === content[j][i].value && content[k][i].x !== content[j][i].x) {
                         duplicados.push(content[k][i].id)
                     }
@@ -110,15 +109,15 @@ export function getRandom() {
 
 
 export function createBoard(contenido: (number | null)[][]): Casilla[][]{
-    let content: Casilla[][] = []
-    for (var i = 0; i < 9; i++) {
+    const content: Casilla[][] = []
+    for (let i = 0; i < 9; i++) {
 
-        let row: Array<Casilla> = []
-        for (var k = 0; k < 9; k++) {
+        const row: Array<Casilla> = []
+        for (let k = 0; k < 9; k++) {
     
             const id = `${i},${k}`;
             const defaultValue = contenido[i][k] ? true : false;
-            let value = contenido[i][k];
+            const value = contenido[i][k];
             const x = i;
             const y = k;
             const color = "";
