@@ -1,10 +1,15 @@
 import { render, cleanup, waitFor,screen } from '@testing-library/react';
-import { BoardContext, useBoardData,  useChangeValue } from './boardContext';
-import { describe, test, assert,afterEach, expect } from 'vitest';
-import { contenido } from '../App';
-import { Casilla } from '../models/classes/casilla';
+import { BoardContext } from './boardContext';
+import { describe, test,afterEach, expect } from 'vitest';
+
+
 import Square from './square';
 import userEvent from '@testing-library/user-event';
+import { KEYS } from '../models/const/tests';
+import {  contenido, fullSudoku } from '../functions/data';
+
+
+import { Modal } from './Modal';
 
 describe('BoardContext', () => {
     afterEach(() => {
@@ -14,54 +19,119 @@ describe('BoardContext', () => {
     const mockData = contenido;
     
    
-    test('cambiar el color de los elementos con id que se pasa',async  () => {
-        const user = userEvent.setup();
+    test('cambiar el valor de los elementos box',async  () => {
+        
         
         
         
 
         render(
-            <BoardContext contenido={mockData} openModal={() => { }}>
+            <BoardContext contenido={mockData} >
                 <Square />
             </BoardContext>
         );
-        const target = await screen.findByTestId('0,3');
+        const target = await screen.findByTestId('0,3') as HTMLInputElement;
         
         
-        userEvent.click(target);
-        userEvent.keyboard("3")
-        console.log("target",target);
-        const targetMod = await screen.findByTestId('0,3');
-        console.log("target 2",targetMod);
-        expect(target).toBe('3')
+       
+        userEvent.type(target,"3");
+        
+        
+        
         await waitFor(() => {
-            
+            expect(target.value).toBe('3')
         });
 
        
     });
 
-    /*test('Cambiar el valor de una casilla', async () => {
-        const TestComponent = () => {
-            const data = useBoardData();
-            const changeValue = useChangeValue();
-            const casilla = new Casilla("0,0", 0, 0, true, 1, '');
-
-            changeValue(casilla, 7, data);
-
-            assert.strictEqual(data[0][0].value, 7);
-            return <></>;
-        };
+    test('cambiar el valor de una elemento box para que este rojo',async  () => {
+        
+        
+        
+        
 
         render(
-            <BoardContext contenido={mockData} openModal={() => { }}>
-                <TestComponent />
+            <BoardContext contenido={mockData} >
+                <Square />
             </BoardContext>
         );
+        const target = await screen.findByTestId('0,3') as HTMLInputElement;
+        
+        
+       
+        userEvent.type(target,"3");
+        
+        
+        
+        await waitFor(() => {
+            expect(target.className).toBe('rojo')
+        });
 
-        // Wait for any asynchronous operations to complete
-        await waitFor(() => {});
+       
+    });
 
-        // The test should end successfully
-    });*/
+    test('cambiar el color de una elemento box',async  () => {
+       
+        
+        
+        
+
+        render(
+            <BoardContext contenido={mockData} >
+                <Square />
+            </BoardContext>
+        );
+        const target = await screen.findByTestId('0,3') as HTMLInputElement;
+        
+        
+       
+        userEvent.type(target,"3");
+        userEvent.type(target,KEYS.del);
+        userEvent.type(target,"2");
+        const target2 = await screen.findByTestId('0,1') as HTMLInputElement;
+        
+        
+        
+        await waitFor(() => {
+            expect(target2.className).toBe('white')
+        });
+
+       
+    });
+    
+    
+    
+    test('Testear si ha abierto el modal',async  () => {
+        
+        
+        
+       
+
+        
+        render(
+            <>
+            <BoardContext contenido={fullSudoku} >
+                <Square />
+            </BoardContext>
+            <Modal />
+            </>
+        );
+      
+        
+        
+        const modal = screen.findByText("Felicitaciones");
+        
+        await waitFor(() => {
+            setTimeout(()=>{expect(modal).toBeVisible();},500)
+            
+        });
+            
+        
+       
+       
+    });
+
 });
+
+

@@ -5,3 +5,5 @@ export interface Props {
   }
 
   export type tablero = Casilla[][];
+
+  

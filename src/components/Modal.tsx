@@ -1,14 +1,20 @@
 import './Modal.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef,  useImperativeHandle, useState } from "react";
 
+export type ModalRef = {
+  showModal(): void,
+  hideModal(): void
+}
 
 export const Modal = forwardRef((props,ref) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
 
     const handleShow = () => setShow(true);
+
+   
     console.log(props)
     useImperativeHandle(ref, () => ({
         showModal() {
@@ -23,7 +29,7 @@ export const Modal = forwardRef((props,ref) => {
               <div className="modal-overlay">
       <div className="modal-base d-flex flex-column bg-white">
         <div className='modal-header text-white bg-secondary p-3'>
-          <span>Felicitaciones!</span>
+          <span>Felicitaciones</span>
         </div>
         <div className='modal-body p-3'>
         

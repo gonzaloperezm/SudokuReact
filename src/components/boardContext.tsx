@@ -1,15 +1,20 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import {   ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 import { checkBoard, createBoard } from "../functions/function";
 import { tablero } from "../models/types/type";
 import { Casilla } from "../models/classes/casilla";
+import { ModalRef } from "./Modal";
 
 
 
-
+interface RefContextProps{
+    modalRef: React.RefObject<ModalRef>
+    
+}
 
 const BoardData = createContext<tablero>([])
 const ChangeValue = createContext<(x: Casilla, i: number | null,data: tablero) => void>(() => {return [] });
 const ChangeColor = createContext<(id: Array<string>, color: string,data: tablero) => void>(()=>{return []});
+const RefForModal = createContext<RefContextProps | undefined>(undefined);
 
 export function useBoardData() {
     return useContext(BoardData)
@@ -31,13 +36,10 @@ export function useChangeColor() {
 
 
 
-export interface ModalRef {
-    showModal(): () => void,
-    hideModal(): () => void
-}
+
+
 type boardContextProps = {
     contenido: (number | null)[][],
-    openModal: ()=>void,
     children: ReactNode
 }
 export const BoardContext = (props: boardContextProps) => {
@@ -45,6 +47,9 @@ export const BoardContext = (props: boardContextProps) => {
     const tablero = createBoard(props.contenido)
     const [data,setData] = useState(tablero);
     
+    const myRef = useRef<ModalRef>(null)
+    
+       
 
     function changeValue(number: Casilla, newValue: number | null,data: tablero) {
         const newData = data.map(row => row.slice()); // Clonar el array de arrays
@@ -91,8 +96,8 @@ export const BoardContext = (props: boardContextProps) => {
     }, [data]);
 
     useEffect(() => {
-        if (winner && props.openModal) {
-            props.openModal()
+        if (winner) {
+            myRef.current?.showModal();
         }
     }, [winner])
     
@@ -103,9 +108,10 @@ export const BoardContext = (props: boardContextProps) => {
             <BoardData.Provider value={data}>
                 <ChangeValue.Provider value={changeValue}>
                     <ChangeColor.Provider value={changeColor}>
+                        <RefForModal.Provider value={{modalRef: myRef}}>
 
                         {props.children}
-
+                        </RefForModal.Provider>
                     </ChangeColor.Provider>
 
                 </ChangeValue.Provider>
@@ -120,3 +126,10 @@ export const BoardContext = (props: boardContextProps) => {
 }
 
 
+export const useModal = () => {
+    const context = useContext(RefForModal);
+    if (!context) {
+      throw new Error('useModal must be used within a ModalProvider');
+    }
+    return context;
+  };

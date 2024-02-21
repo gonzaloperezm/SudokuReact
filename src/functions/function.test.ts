@@ -1,5 +1,6 @@
 
-import { Casilla } from "../components/boardContext";
+
+import { Casilla } from "../models/classes/casilla";
 import { contenido, correctContent, wrongBoxContent, wrongColumnContent, wrongContent, wrongRowContent } from "./data";
 import { checkAllSquares, checkBoard, checkColumn, checkRow, checkSquare, createBoard } from "./function";
 
