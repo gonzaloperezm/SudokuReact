@@ -1,8 +1,8 @@
 
 
 import { Casilla } from "../models/classes/casilla";
-import { contenido, correctContent, wrongBoxContent, wrongColumnContent, wrongContent, wrongRowContent } from "./data";
-import { checkAllSquares, checkBoard, checkColumn, checkRow, checkSquare, createBoard } from "./function";
+import { contenido, correctContent, wrongBoxContent, wrongColumnContent, wrongContent, wrongRowContent } from "../functions/mockData";
+import { checkAllSquares, checkBoard, checkColumn, checkRow, checkSquare, createBoard } from "../functions/function";
 
 import { expect, expectTypeOf, test } from 'vitest';
 

@@ -133,8 +133,37 @@ export function createBoard(contenido: (number | null)[][]): Casilla[][]{
     return content;
 }
 
+export function getSudoku() {
+    return fetch('https://sudoku-api.vercel.app/api/dosuku')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('La solicitud a la API no fue exitosa.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const matriz = data.newboard.grids[0].solution;
+        return matriz;
+      })
+      .catch(error => {
+        console.error('Error al obtener la matriz del sudoku:', error);
+        throw error;
+      });
+  }
+  
 
+ export function setLevel(matriz: (number | null)[][],cantidad: number){
 
+    const size = matriz.length
+    for(let i =0; i<cantidad;i++){
+        const fila = Math.floor(Math.random()*size)
+        const columna = Math.floor(Math.random()*size)
+
+        matriz[fila][columna] = null
+    }
+    return matriz
+  }
+  
 /*export function createNewBoard(contenido: (number | null)[][]): Casilla[][]{
     let content: Casilla[][] = []
     for (var i = 0; i < 9; i++) {

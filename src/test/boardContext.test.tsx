@@ -1,22 +1,23 @@
 import { render, cleanup, waitFor,screen } from '@testing-library/react';
-import { BoardContext } from './boardContext';
+import { BoardContext, useModal } from '../components/boardContext';
 import { describe, test,afterEach, expect } from 'vitest';
 
 
-import Square from './square';
+import Square from '../components/square';
 import userEvent from '@testing-library/user-event';
 import { KEYS } from '../models/const/tests';
-import {  contenido, fullSudoku } from '../functions/data';
+import {  contenido, fullSudoku } from '../functions/mockData';
 
 
-import { Modal } from './Modal';
-
+import { Modal } from '../components/Modal';
+import { useRef } from 'react';
+const mockData = contenido;
 describe('BoardContext', () => {
     afterEach(() => {
         cleanup();
     });
 
-    const mockData = contenido;
+    
     
    
     test('cambiar el valor de los elementos box',async  () => {
@@ -102,12 +103,16 @@ describe('BoardContext', () => {
     
     
     
-    test('Testear si ha abierto el modal',async  () => {
-        
-        
-        
-       
+    
 
+});
+
+
+describe("testeo modal", async ()=>{
+    afterEach(() => {
+        cleanup();
+    });
+    test('Testear si ha abierto el modal',async  () => {
         
         render(
             <>
@@ -126,12 +131,33 @@ describe('BoardContext', () => {
             setTimeout(()=>{expect(modal).toBeVisible();},500)
             
         });
-            
+        
+
         
        
        
     });
 
-});
 
+    /* test("useImperativeHandle devuelve las funciones a la ref", async ()=>{
+        const ref = useModal();
+        //mockear un contexto con una ref para luego pasarsela a al modal para que la decore
+        render(
+            <BoardContext contenido={mockData} >
+               <Modal ref={ref.modalRef}/>
+            </BoardContext>
+        )
+
+        
+        const myRef = useRef();
+    
+       
+        await waitFor(() => {
+            
+            expect(myRef.current?.showModal()).toBeDefined();
+            expect(myRef.current?.hideModal()).toBeDefined();
+        });
+
+    }) */
+});
 

@@ -1,33 +1,24 @@
-import {   ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 import { checkBoard, createBoard } from "../functions/function";
-import { tablero } from "../models/types/type";
+import { Contexto, matriz, tablero } from "../models/types/type";
 import { Casilla } from "../models/classes/casilla";
 import { ModalRef } from "./Modal";
 
 
 
-interface RefContextProps{
+
+export interface RefContextProps {
     modalRef: React.RefObject<ModalRef>
-    
-}
-
-const BoardData = createContext<tablero>([])
-const ChangeValue = createContext<(x: Casilla, i: number | null,data: tablero) => void>(() => {return [] });
-const ChangeColor = createContext<(id: Array<string>, color: string,data: tablero) => void>(()=>{return []});
-const RefForModal = createContext<RefContextProps | undefined>(undefined);
-
-export function useBoardData() {
-    return useContext(BoardData)
-}
-
-export function useChangeValue() {
-    return useContext(ChangeValue)
 
 }
 
-export function useChangeColor() {
-    return useContext(ChangeColor)
-}
+export const ContextoBoard = createContext<Contexto>({
+    data: [],
+    changeValue: () => { },
+    changeColor: () => { },
+    RefForModal: undefined
+});
+
 
 
 
@@ -39,40 +30,40 @@ export function useChangeColor() {
 
 
 type boardContextProps = {
-    contenido: (number | null)[][],
+    contenido: matriz,
     children: ReactNode
 }
 export const BoardContext = (props: boardContextProps) => {
-   
-    const tablero = createBoard(props.contenido)
-    const [data,setData] = useState(tablero);
-    
-    const myRef = useRef<ModalRef>(null)
-    
-       
 
-    function changeValue(number: Casilla, newValue: number | null,data: tablero) {
-        const newData = data.map(row => row.slice()); // Clonar el array de arrays
+    const tablero = createBoard(props.contenido)
+    const [data, setData] = useState(tablero);
+
+    const myRef = useRef<ModalRef>(null)
+
+
+
+    function changeValue(number: Casilla, newValue: number | null, data: tablero) {
+        const newData = data.map(row => row.slice());
         newData[number.x][number.y].value = newValue;
         setData(newData);
-        
+
     }
 
-    
-    function changeColor(id: string[], color: string,data: tablero) {
-        
-        const newData = data.map(row => row.slice()); // Clonar el array de arrays
-    for (let i = 0; i < newData.length; i++) {
-        for (let k = 0; k < newData[i].length; k++) {
-            for (let x = id.length - 1; x >= 0; x--) {
-                if (newData[i][k].id === id[x]) {
-                    newData[i][k].color = color;
+
+    function changeColor(id: string[], color: string, data: tablero) {
+
+        const newData = data.map(row => row.slice());
+        for (let i = 0; i < newData.length; i++) {
+            for (let k = 0; k < newData[i].length; k++) {
+                for (let x = id.length - 1; x >= 0; x--) {
+                    if (newData[i][k].id === id[x]) {
+                        newData[i][k].color = color;
+                    }
                 }
             }
         }
-    }
-    setData(newData);
-        
+        setData(newData);
+
     }
     const [winner, setWinner] = useState(false)
     useEffect(() => {
@@ -100,23 +91,23 @@ export const BoardContext = (props: boardContextProps) => {
             myRef.current?.showModal();
         }
     }, [winner])
-    
-   
-    
+
+    const contexto: Contexto = {
+        data: data,
+        changeValue: changeValue,
+        changeColor: changeColor,
+        RefForModal: { modalRef: myRef }
+    };
+
     return (
         <>
-            <BoardData.Provider value={data}>
-                <ChangeValue.Provider value={changeValue}>
-                    <ChangeColor.Provider value={changeColor}>
-                        <RefForModal.Provider value={{modalRef: myRef}}>
+            <ContextoBoard.Provider value={contexto}>
 
-                        {props.children}
-                        </RefForModal.Provider>
-                    </ChangeColor.Provider>
 
-                </ChangeValue.Provider>
+                {props.children}
 
-            </BoardData.Provider>
+
+            </ContextoBoard.Provider>
 
         </>
 
@@ -127,9 +118,9 @@ export const BoardContext = (props: boardContextProps) => {
 
 
 export const useModal = () => {
-    const context = useContext(RefForModal);
-    if (!context) {
-      throw new Error('useModal must be used within a ModalProvider');
+    const context = useContext(ContextoBoard);
+    if (!context.RefForModal) {
+        throw new Error('useModal must be used within a ModalProvider');
     }
-    return context;
-  };
+    return context.RefForModal;
+};
