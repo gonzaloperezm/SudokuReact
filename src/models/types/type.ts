@@ -1,5 +1,5 @@
 
-import { RefContextProps } from "../../components/boardContext";
+
 import { Casilla } from "../classes/casilla";
 export interface Props {
     
@@ -8,7 +8,14 @@ export interface Props {
 
   export type tablero = Casilla[][];
 
+  export interface RefContextProps {
+    modalRef: React.RefObject<ModalRef>
 
+  } 
+  export type ModalRef = {
+    showModal(): void,
+    hideModal(): void
+  }
   export type matriz = (number | null)[][]
   
 

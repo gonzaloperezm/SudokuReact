@@ -2,11 +2,9 @@ import '../styles/Modal.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { forwardRef,  useImperativeHandle, useState } from "react";
+import Confetti from 'react-confetti';
 
-export type ModalRef = {
-  showModal(): void,
-  hideModal(): void
-}
+
 
 export const Modal = forwardRef((props,ref) => {
     const [show, setShow] = useState(false);
@@ -25,7 +23,9 @@ export const Modal = forwardRef((props,ref) => {
         },
       }))
     return show ?
+        
         <div>
+          <Confetti />
               <div className="modal-overlay">
       <div className="modal-base d-flex flex-column bg-white">
         <div className='modal-header text-white bg-secondary p-3'>
@@ -35,6 +35,7 @@ export const Modal = forwardRef((props,ref) => {
         
           <div>
             ¡Has ganado!
+            
           </div>
         
         </div>

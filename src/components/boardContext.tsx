@@ -1,16 +1,13 @@
 import { ReactNode, createContext, useContext, useEffect, useRef, useState } from "react";
 import { checkBoard, createBoard } from "../functions/function";
-import { Contexto, matriz, tablero } from "../models/types/type";
+import { Contexto, ModalRef, matriz, tablero } from "../models/types/type";
 import { Casilla } from "../models/classes/casilla";
-import { ModalRef } from "./Modal";
 
 
 
 
-export interface RefContextProps {
-    modalRef: React.RefObject<ModalRef>
 
-}
+
 
 export const ContextoBoard = createContext<Contexto>({
     data: [],
