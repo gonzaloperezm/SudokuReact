@@ -35,7 +35,7 @@ describe('Testeo comoponente principal', ()=>{
         render(
             <Principal />
         )
-        const boardContext = await screen.getByTestId('0,0');
+        const boardContext = setTimeout(()=>{screen.getByTestId('0,0')},500);
         await waitFor(() => {
             setTimeout(()=>{
                 expect(boardContext).toBeVisible();

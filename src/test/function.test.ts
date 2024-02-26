@@ -2,7 +2,7 @@
 
 import { Casilla } from "../models/classes/casilla";
 import { contenido, correctContent, wrongBoxContent, wrongColumnContent, wrongContent, wrongRowContent } from "../functions/mockData";
-import { checkAllSquares, checkBoard, checkColumn, checkRow, checkSquare, createBoard } from "../functions/function";
+import { checkAllSquares, checkBoard, checkColumn, checkRow, checkSquare, createBoard, getRandom } from "../functions/function";
 
 import { expect, expectTypeOf, test } from 'vitest';
 
@@ -40,6 +40,12 @@ test('completar una matriz con objetos Casilla',()=>{
     expect(content[0]).toHaveLength(9)
     expect(content[0]).toBeInstanceOf(Array<Casilla>)
     expectTypeOf(content).toEqualTypeOf<Array<Array<Casilla>>>
+})
+
+test('que devuelva valor entre 1 y 9',()=>{
+    const result = getRandom();
+    expect(result).toBeGreaterThan(0);
+    expect(result).toBeLessThan(9);
 })
 
 
