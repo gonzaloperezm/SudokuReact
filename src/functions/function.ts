@@ -133,7 +133,7 @@ export function createBoard(contenido: (number | null)[][]): Casilla[][]{
     return content;
 }
 
-export function getSudoku() {
+export function  getSudoku() {
     return fetch('https://sudoku-api.vercel.app/api/dosuku')
       .then(response => {
         if (!response.ok) {

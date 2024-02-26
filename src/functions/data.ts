@@ -1,14 +1,17 @@
 import { getSudoku, setLevel } from "./function";
 
 
-export const matrizApi = await getSudoku()
 
+async function obtenerMatrizFacil() {
+    try {
+        const matrizApi = await getSudoku();
+        const matrizFacil = await setLevel(matrizApi, 20);
+        console.log("nuevamatriz", matrizFacil);
+        return matrizFacil;
+    } catch (error) {
+        console.error('Error al obtener la matriz fácil del sudoku:', error);
+        throw error;
+    }
+}
 
-
-const matrizFacil = matrizApi
-
-
-setLevel(matrizFacil, 20)
-console.log("nuevamatriz",matrizFacil)
-
-export { matrizFacil };
+export default obtenerMatrizFacil;
