@@ -20,7 +20,7 @@
   
   .modal-base {
     border-radius: 8px;
-    min-width: 500px;
+    min-width: 350px;
     z-index: 9999;
   }
   
