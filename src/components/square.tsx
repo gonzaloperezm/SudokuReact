@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap"
 import Box from "./box"
-import './style.css'
+import '../styles/style.css'
 
 import {   ContextoBoard } from "./boardContext"
 import { checkBoard } from "../functions/function";

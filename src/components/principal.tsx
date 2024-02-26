@@ -5,7 +5,7 @@ import { matrizFacil } from "../functions/data";
 import { Button } from "react-bootstrap";
 import { BoardContext } from "./boardContext";
 import App from "../App";
-import './principal.css'
+import '../styles/principal.css'
 
 export const Principal = () => {
     const [matriz, setMatriz] = useState<matriz>(matrizFacil);

@@ -1,5 +1,5 @@
 import { render, cleanup, waitFor,screen } from '@testing-library/react';
-import { BoardContext, useModal } from '../components/boardContext';
+import { BoardContext } from '../components/boardContext';
 import { describe, test,afterEach, expect } from 'vitest';
 
 
@@ -10,7 +10,7 @@ import {  contenido, fullSudoku } from '../functions/mockData';
 
 
 import { Modal } from '../components/Modal';
-import { useRef } from 'react';
+
 const mockData = contenido;
 describe('BoardContext', () => {
     afterEach(() => {

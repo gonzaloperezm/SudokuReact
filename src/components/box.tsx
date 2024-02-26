@@ -1,7 +1,7 @@
 
 
 
-import './style.css'
+import '../styles/style.css'
 
 import { Casilla } from '../models/classes/casilla';
 

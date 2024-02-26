@@ -19,16 +19,6 @@ export const ContextoBoard = createContext<Contexto>({
     RefForModal: undefined
 });
 
-
-
-
-
-
-
-
-
-
-
 type boardContextProps = {
     contenido: matriz,
     children: ReactNode

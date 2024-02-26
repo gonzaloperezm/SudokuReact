@@ -1,4 +1,4 @@
-import './Modal.css'
+import '../styles/Modal.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { forwardRef,  useImperativeHandle, useState } from "react";
