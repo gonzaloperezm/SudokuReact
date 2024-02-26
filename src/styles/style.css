@@ -1,9 +1,10 @@
 input {
     border: 2px solid #777;
-    height: 50px;
-    width: 50px;
+    height: 4vw;
+    width: 4vw;
     font-weight:  bold;
     text-align: center;
+    font-size: 1vw
 
 
 }
@@ -29,7 +30,8 @@ input:disabled{
     display: flex;
     flex-direction: column;
     border: 5px solid black;
-    
+    max-width: 90vw;
+    margin: 0 auto;
 }
 
 .sudoku-board .row {

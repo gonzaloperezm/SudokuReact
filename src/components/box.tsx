@@ -26,7 +26,8 @@ const Box: React.FC<Props> = ({ casilla,onNumberChange }) => {
             value={casilla.value || ""}
             disabled={casilla.defaultValue ? true : false}
             className={casilla.color} 
-            data-testid={casilla.id}/>
+            data-testid={casilla.id}
+            inputMode="numeric"/>
 
     )
 }
