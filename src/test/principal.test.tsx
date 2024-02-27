@@ -26,8 +26,8 @@ describe('Testeo comoponente principal', ()=>{
 
         await waitFor(() => {
             setTimeout(()=>{expect(setLevel).toHaveBeenCalledWith(expect.any(Array),20)},500)
-            setTimeout(()=>{expect(setLevel).toHaveBeenCalledWith(expect.any(Array),40)},500)
-            setTimeout(()=>{expect(setLevel).toHaveBeenCalledWith(expect.any(Array),80)},500)
+            setTimeout(()=>{expect(setLevel).toHaveBeenCalledWith(expect.any(Array),35)},500)
+            setTimeout(()=>{expect(setLevel).toHaveBeenCalledWith(expect.any(Array),45)},500)
         });
     });
 

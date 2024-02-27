@@ -48,7 +48,7 @@ export const Principal = () => {
                 <Button onClick={() => handleClick(20)} className="level col-sm-3">Easy</Button>
                 <Button onClick={() => handleClick(35)} className="level col-sm-3">Medium</Button>
                 <Button onClick={() => handleClick(45)} className="level col-sm-3">Hard</Button>
-                <Button onClick={() => handleClick(56)} className="level col-sm-3">Impossible</Button>
+                <Button onClick={() => handleClick(60)} className="level col-sm-3">Impossible</Button>
             </div>
            
             <BoardContext contenido={matriz} key={key} data-testid="board">

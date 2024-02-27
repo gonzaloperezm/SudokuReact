@@ -139,25 +139,6 @@ describe("testeo modal", async ()=>{
     });
 
 
-    /* test("useImperativeHandle devuelve las funciones a la ref", async ()=>{
-        const ref = useModal();
-        //mockear un contexto con una ref para luego pasarsela a al modal para que la decore
-        render(
-            <BoardContext contenido={mockData} >
-               <Modal ref={ref.modalRef}/>
-            </BoardContext>
-        )
-
-        
-        const myRef = useRef();
-    
-       
-        await waitFor(() => {
-            
-            expect(myRef.current?.showModal()).toBeDefined();
-            expect(myRef.current?.hideModal()).toBeDefined();
-        });
-
-    }) */
+  
 });
 

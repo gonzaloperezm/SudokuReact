@@ -168,39 +168,96 @@ export function  getSudoku() {
     return matriz
   }
   
-/*export function createNewBoard(contenido: (number | null)[][]): Casilla[][]{
-    let content: Casilla[][] = []
-    for (var i = 0; i < 9; i++) {
 
-        let row: Array<Casilla> = []
-        for (var k = 0; k < 9; k++) {
-    
-            const id = `${i},${k}`;
-            const defaultValue = contenido[i][k] ? true : false;
-            
-            let value = getRandom();
-            const x = i;
-            const y = k;
-            const color = "";
-            if(checkBoard(content)){
-                const ids = checkBoard(content)
-                if(ids)
-                ids.map((id)=>{
-                    while(checkBoard(content)){
-                        id === getRandom()
-                    }
-                })
-                
-            }
-    
-            const casilla = new Casilla(id, x, y, defaultValue, value, color);
-            row.push(casilla)
-    
-        }
-        content.push(row)
-    
+
+/*class SudokuGenerator {
+    private board: number[][];
+    private readonly boardSize: number;
+    private readonly subgridSize: number;
+    private readonly numbers: number[];
+
+    constructor(size: number) {
+        this.boardSize = size;
+        this.subgridSize = Math.sqrt(size);
+        this.numbers = this.shuffle([...Array(size).keys()].map(x => x + 1));
+        this.board = this.generateBoard();
     }
-    return content;
+
+    private shuffle(array: any[]): any[] {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    private generateBoard(): number[][] {
+        const board = Array.from(Array(this.boardSize), () => Array(this.boardSize).fill(0));
+        this.solve(board);
+        return board;
+    }
+
+    private isValid(board: number[][], row: number, col: number, num: number): boolean {
+        for (let i = 0; i < this.boardSize; i++) {
+            if (board[row][i] === num || board[i][col] === num) {
+                return false;
+            }
+        }
+
+        const startRow = Math.floor(row / this.subgridSize) * this.subgridSize;
+        const startCol = Math.floor(col / this.subgridSize) * this.subgridSize;
+        for (let i = 0; i < this.subgridSize; i++) {
+            for (let j = 0; j < this.subgridSize; j++) {
+                if (board[i + startRow][j + startCol] === num) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private solve(board: number[][]): boolean {
+        const emptySpot = this.findEmptySpot(board);
+        if (!emptySpot) {
+            return true;
+        }
+
+        const [row, col] = emptySpot;
+
+        for (let num of this.numbers) {
+            if (this.isValid(board, row, col, num)) {
+                board[row][col] = num;
+
+                if (this.solve(board)) {
+                    return true;
+                }
+
+                board[row][col] = 0;
+            }
+        }
+
+        return false;
+    }
+
+    private findEmptySpot(board: number[][]): [number, number] | null {
+        for (let row = 0; row < this.boardSize; row++) {
+            for (let col = 0; col < this.boardSize; col++) {
+                if (board[row][col] === 0) {
+                    return [row, col];
+                }
+            }
+        }
+        return null;
+    }
+
+    getBoard(): number[][] {
+        return this.board;
+    }
 }
 
+// Uso:
+const generator = new SudokuGenerator(9);
+const sudokuBoard = generator.getBoard();
+console.log("NUEVO SUDOKU",sudokuBoard);
 */
