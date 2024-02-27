@@ -168,7 +168,11 @@ export function  getSudoku() {
     return matriz
   }
   
-
+ export function changeRowColumnColor(casilla: Casilla){
+    for(var i=0;i<9;i++){
+        casilla
+    }
+ }
 
 /*class SudokuGenerator {
     private board: number[][];

@@ -8,17 +8,21 @@ import { Casilla } from '../models/classes/casilla';
 
 type Props = {
     casilla: Casilla;
-    onNumberChange: (event:any,number: Casilla) =>void
+    onNumberChange: (event:any,number: Casilla) =>void;
+    onClick: () => void;
 }
 
 
 
 
 
-const Box: React.FC<Props> = ({ casilla,onNumberChange }) => {
+const Box: React.FC<Props> = ({ casilla,onNumberChange, onClick }) => {
 
-
+    const handleClick = () => {
+        onClick();
+      };
     return (
+        <div onClick={handleClick}>
 
         <input type="text"
             inputMode="numeric"
@@ -26,10 +30,10 @@ const Box: React.FC<Props> = ({ casilla,onNumberChange }) => {
             onChange={(e)=>{onNumberChange(e,casilla)}}
             value={casilla.value || ""}
             disabled={casilla.defaultValue ? true : false}
-            className={casilla.color} 
+            className={`${casilla.defaultValue ? 'unmodifiable' : ''} ${casilla.color}`} 
             data-testid={casilla.id}
            />
-
+        </div>
     )
 }
 
