@@ -16,10 +16,10 @@ describe('Testeo comoponente principal', ()=>{
         render(
             <Principal />
         )
-
-        const targetFacil = await screen.findByText('Facil') as HTMLButtonElement;
-        const targetMedio = await screen.findByText('Medio') as HTMLButtonElement;
-        const targetDificil = await screen.findByText('Dificil') as HTMLButtonElement;
+            
+        const targetFacil = await screen.findByText('Easy') as HTMLButtonElement;
+        const targetMedio = await screen.findByText('Medium') as HTMLButtonElement;
+        const targetDificil = await screen.findByText('Hard') as HTMLButtonElement;
         userEvent.click(targetFacil)
         userEvent.click(targetMedio)
         userEvent.click(targetDificil)
@@ -45,5 +45,8 @@ describe('Testeo comoponente principal', ()=>{
         });
        
     });
+
+
+    test('testear si al hacer click')
 
 });

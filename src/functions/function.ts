@@ -158,8 +158,12 @@ export function  getSudoku() {
     for(let i =0; i<cantidad;i++){
         const fila = Math.floor(Math.random()*size)
         const columna = Math.floor(Math.random()*size)
-
-        matriz[fila][columna] = null
+        if(matriz[fila][columna]===null){
+            i-=1;
+        }else{
+            matriz[fila][columna] = null;
+        }
+        
     }
     return matriz
   }
