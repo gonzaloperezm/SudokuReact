@@ -7,7 +7,7 @@ import { checkBoard } from "../functions/function";
 import {  useContext, useEffect, useState } from "react";
 import { tablero } from "../models/types/type";
 import { Casilla } from "../models/classes/casilla";
-import NumericalKeyboard from "./numericalKeyboard";
+
 
 export const Square = () => {
   const { data, changeValue, changeColor } = useContext(ContextoBoard)
@@ -17,7 +17,7 @@ export const Square = () => {
   const white = "white";
   const red = "rojo"
   const [id, setId] = useState<string[]>([])
-
+  const [selectedCell, setSelectedCell] = useState<Casilla | null>(null);
   function handleChange(event: any, casilla: Casilla) {
     const newValue = event.target.value;
 
@@ -30,11 +30,12 @@ export const Square = () => {
      changeColorContext(boardCheckResult, red,content);
 
     } else {
+      
       changeColorContext(id, white,content)
     }
 
   }
-  const [selectedCell, setSelectedCell] = useState<Casilla | null>(null);
+ 
 
   function handleClick(casilla: Casilla) {
     setSelectedCell(casilla); 
@@ -43,16 +44,19 @@ export const Square = () => {
   
   useEffect(() => {
     if (selectedCell) {
-      const { x: fila, y: columna,value } = selectedCell; 
+      const { x: fila, y: columna,value,color } = selectedCell; 
       const idsToColor: string[] = [];
       for (let i = 0; i < 9; i++) {
-        idsToColor.push(`${fila},${i}`);
-        idsToColor.push(`${i},${columna}`);
+        if(color!="rojo"){
+          idsToColor.push(`${fila},${i}`);
+          idsToColor.push(`${i},${columna}`);
+        }
+        
       }
 
       for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-          if (content[i][j].value === value && value!=null) {
+          if (content[i][j].value === value && value!=null && color!="rojo") {
             idsToColor.push(`${i},${j}`);
           }
         }
@@ -65,11 +69,13 @@ export const Square = () => {
           allIds.push(`${i},${j}`);
         }
       }
-      const idsToRestore = allIds.filter(id => !idsToColor.includes(id));
-      changeColorContext(idsToRestore, white, content);
-    } else {
-      changeColorContext([], white, content); 
-    }
+      const idsToRestore = allIds.filter(id => {
+        const [x, y] = id.split(",").map(Number); 
+         if (typeof x !== 'number' || typeof y !== 'number') return false; 
+         return content[x][y].color !== "rojo" && !idsToColor.includes(id);
+    });
+    changeColorContext(idsToRestore, white, content);
+    } 
   }, [selectedCell]);
   
 
